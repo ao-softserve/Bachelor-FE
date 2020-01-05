@@ -1,11 +1,15 @@
 import React from "react";
 
 import { NodeSvgWrapper } from "./NodeStyles";
-import { NodeType, IMachine } from "../../simulationsData/producerSimulation";
+import {
+  NodeType,
+  IMachine,
+  INode
+} from "../../simulationsData/producerSimulation";
 import { HierarchyNode } from "d3-hierarchy";
 
 interface INodeProps {
-  node: HierarchyNode<IMachine>;
+  node: INode;
   onClick?: () => void;
 }
 
@@ -30,5 +34,5 @@ export const Node: React.FC<INodeProps> = ({ node }) => {
     [NodeType.outputBuffer]: inputBufferIcon
   };
 
-  return nodesIcons[node.data.type];
+  return nodesIcons[node.type];
 };

@@ -58,7 +58,7 @@ export const Nodes: React.FC<INodesProps> = ({ nodes, onNodeClick }) => {
           >
             {node.data.name}
           </NodeText>
-          <Node node={node} onClick={() => handleNodeClick(node)} />
+          {/* <Node node={node} onClick={() => handleNodeClick(node)} /> */}
         </Group>
       ))}
     </>
