@@ -5,7 +5,10 @@ import { Node } from "../Node/Node";
 import { ICON_HEIGHT, ICON_WIDTH } from "../Node/NodeStyles";
 import { NodeText } from "./NodesStyles";
 import { HierarchyPointNode } from "d3-hierarchy";
-import { IMachine, NodeType } from "../../simulationsData/producerSimulation";
+import {
+  IMachine,
+  NodeType
+} from "../../simulationsData/producer/producerSimulation";
 
 interface INodesProps {
   nodes: HierarchyPointNode<IMachine>[];

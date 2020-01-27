@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { Tree } from "@vx/hierarchy";
 import { Group } from "@vx/group";
-import { hierarchy, HierarchyNode } from "d3-hierarchy";
+import { hierarchy, HierarchyNode, HierarchyPointNode } from "d3-hierarchy";
 
 import { SimulationWrapper } from "./SimulationStyles";
 
@@ -10,7 +11,11 @@ import { Nodes } from "../Nodes/Nodes";
 
 import producerSimData, {
   IMachine
-} from "../../simulationsData/producerSimulation";
+} from "../../simulationsData/producer/producerSimulation";
+import { spec } from "../../simulationsData/producer/eduA-scenario";
+import * as eduAEngine from "../../eduA/EduA";
+import { initSimulation } from "../../actions/eduA";
+import { RootState } from "../../reducers";
 
 const WIDTH = 800;
 const HEIGHT = 300;
@@ -25,10 +30,28 @@ const MARGIN = {
 const INNER_HEIGHT = HEIGHT - MARGIN.top - MARGIN.bottom;
 const INNER_WIDTH = WIDTH - MARGIN.left - MARGIN.right;
 
-export const Simulation: React.FC = () => {
+interface SDispatchProps {
+  initSimulation: typeof initSimulation;
+}
+
+interface SStoreProps {}
+
+type ISProps = SStoreProps & SDispatchProps;
+
+const Simulation: React.FC<ISProps> = ({ initSimulation }) => {
+  useEffect(() => {
+    const specification = spec.split("\n");
+    const scenario = eduAEngine.edua.parse(specification);
+
+    initSimulation(eduAEngine.edua.newSim(scenario));
+    //eslint-disable-next-line
+  }, []);
+
   const root = hierarchy(producerSimData);
 
-  const group = (data: HierarchyNode<IMachine>) => (
+  const group = (
+    data: HierarchyNode<IMachine> & HierarchyPointNode<IMachine>
+  ) => (
     <Group top={MARGIN.top} left={MARGIN.left}>
       <Links links={data.links()} />
       <Nodes nodes={data.descendants()} onNodeClick={node => {}} />
@@ -41,7 +64,6 @@ export const Simulation: React.FC = () => {
       size={[INNER_HEIGHT, INNER_WIDTH]}
       top={MARGIN.top}
       left={MARGIN.left}
-      separation={(a, b) => 1}
     >
       {group}
     </Tree>
@@ -56,3 +78,17 @@ export const Simulation: React.FC = () => {
     </SimulationWrapper>
   );
 };
+
+const mapStateToProps = (state: RootState) => ({});
+
+const mapDispatchToProps = {
+  initSimulation
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  // @ts-ignore
+  Simulation
+);
