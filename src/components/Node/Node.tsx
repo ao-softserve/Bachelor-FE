@@ -1,7 +1,10 @@
 import React from "react";
 
 import { NodeSvgWrapper } from "./NodeStyles";
-import { NodeType, IMachine } from "../../simulationsData/producerSimulation";
+import {
+  NodeType,
+  IMachine
+} from "../../simulationsData/producer/producerSimulation";
 import { HierarchyNode } from "d3-hierarchy";
 
 interface INodeProps {
@@ -21,7 +24,7 @@ export const Node: React.FC<INodeProps> = ({ node }) => {
   );
 
   const inputBufferIcon = (
-    <circle r={15} stroke="#808080" stroke-width="2" fill="#FFF" />
+    <circle r={15} stroke="#808080" strokeWidth="2" fill="#FFF" />
   );
 
   const nodesIcons = {
