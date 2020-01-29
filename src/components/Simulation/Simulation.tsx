@@ -10,10 +10,8 @@ import { Links } from "../Links/Links";
 import { Nodes } from "../Nodes/Nodes";
 
 import producerSimData, {
-  IMachine
+  Machine
 } from "../../simulationsData/producer/producerSimulation";
-import { spec } from "../../simulationsData/producer/eduA-scenario";
-import * as eduAEngine from "../../eduA/EduA";
 import { initSimulation } from "../../actions/eduA";
 import { RootState } from "../../reducers";
 
@@ -40,17 +38,14 @@ type ISProps = SStoreProps & SDispatchProps;
 
 const Simulation: React.FC<ISProps> = ({ initSimulation }) => {
   useEffect(() => {
-    const specification = spec.split("\n");
-    const scenario = eduAEngine.edua.parse(specification);
-
-    initSimulation(eduAEngine.edua.newSim(scenario));
+    initSimulation();
     //eslint-disable-next-line
   }, []);
 
   const root = hierarchy(producerSimData);
 
   const group = (
-    data: HierarchyNode<IMachine> & HierarchyPointNode<IMachine>
+    data: HierarchyNode<Machine> & HierarchyPointNode<Machine>
   ) => (
     <Group top={MARGIN.top} left={MARGIN.left}>
       <Links links={data.links()} />

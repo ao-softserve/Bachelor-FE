@@ -3,12 +3,12 @@ import React from "react";
 import { NodeSvgWrapper } from "./NodeStyles";
 import {
   NodeType,
-  IMachine
+  Machine
 } from "../../simulationsData/producer/producerSimulation";
 import { HierarchyNode } from "d3-hierarchy";
 
 interface INodeProps {
-  node: HierarchyNode<IMachine>;
+  node: HierarchyNode<Machine>;
   onClick?: () => void;
 }
 

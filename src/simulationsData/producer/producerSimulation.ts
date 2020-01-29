@@ -4,13 +4,13 @@ export enum NodeType {
   outputBuffer = "outputBuffer"
 }
 
-export interface IMachine {
+export interface Machine {
   name: string;
   type: NodeType;
-  children?: IMachine[];
+  children?: Machine[];
 }
 
-const simulationData: IMachine = {
+const simulationData: Machine = {
   name: "Dostawca",
   type: NodeType.inputBuffer,
   children: [

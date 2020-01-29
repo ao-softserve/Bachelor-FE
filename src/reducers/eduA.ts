@@ -1,11 +1,10 @@
-import * as eduAEngine from "../eduA/EduA";
-import { INIT_SIMULATION, START_SIMULATION } from "../consts/actionTypes";
+import { START_SIMULATION, SIMULATION_INITALIZED } from "../consts/actionTypes";
 
 export const eduAModuleName = "eduA";
 
 export interface EduAState {
-  simRunning?: boolean;
-  sim?: any[];
+  simRunning: boolean;
+  sim: any[];
 }
 
 const initState: EduAState = {
@@ -13,14 +12,9 @@ const initState: EduAState = {
   sim: []
 };
 
-export const eduA = (
-  state: EduAState = initState,
-  action: { type: string; payload: any }
-) => {
-  //eslint-disable-next-line
-  console.log(action.type);
+export const eduA = (state = initState, action: { type: string; payload: any }) => {
   switch (action.type) {
-    case INIT_SIMULATION:
+    case SIMULATION_INITALIZED:
       return { ...state, sim: action.payload };
     case START_SIMULATION:
       return { ...state, simRunning: true };

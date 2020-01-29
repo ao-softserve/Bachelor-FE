@@ -6,12 +6,12 @@ import { ICON_HEIGHT, ICON_WIDTH } from "../Node/NodeStyles";
 import { NodeText } from "./NodesStyles";
 import { HierarchyPointNode } from "d3-hierarchy";
 import {
-  IMachine,
+  Machine,
   NodeType
 } from "../../simulationsData/producer/producerSimulation";
 
 interface INodesProps {
-  nodes: HierarchyPointNode<IMachine>[];
+  nodes: HierarchyPointNode<Machine>[];
   onNodeClick?: (node: any) => void;
 }
 

@@ -1,4 +1,5 @@
-export const spec = `Prosta prezentacja dla wizualizacji modelu EduA
+export const spec = `
+Prosta prezentacja dla wizualizacji modelu EduA
 Autor: Tomasz Primke
 Wersja: 1
 
@@ -13,9 +14,9 @@ Wersja: 1
 
 -- Actions      id, name, buffer_id
 1,      buy a,          1
-2,      sell a,         2
+2,      sell a,         5
 3,      buy b,          1
-4,      sell c,         2
+4,      sell c,         5
 
 -- ActionsReqsResults   action_id, req_or_res, type, ref_id, qty
 1,      req,    asset,          1,10
@@ -73,29 +74,26 @@ Wersja: 1
 1,      red,    1,0
 2,      green,  1,0
 
-// -- Events       id, name, type, start_at, period
-// 1,      week,   cyclic, 0,2400
-
 -- Buffers      id, name
 1,      main input
-2,      main output
-3,      wst a
-4,      wst b
-5,      wst c
+2,      wst a
+3,      wst b
+4,      wst c
+5,      main output
 
 -- BufferProducts       buffer_id, product_id, qty
 
 -- Workstations         id, name, buffer_id, machine_id, machine_mode, target_id, status, timer
-1, Workstation A,       3,1,    null,null,not ready,null
-2, Workstation B,       4,2,    null,null,not ready,null
-3, Workstation C,       5,3,    null,null,not ready,null
+1, Workstation A,       2,1,    null,null,not ready,null
+2, Workstation B,       3,2,    null,null,not ready,null
+3, Workstation C,       4,3,    null,null,not ready,null
 
 -- Connections  id, from_buffer, to_buffer
-1,      1,      3
-2,      3,      2
-3,      1,      4
-4,      4,      5
-5,      5,      2
+1,      1,      2
+2,      2,      5
+3,      1,      3
+4,      3,      4
+5,      4,      5
 
 -- ConnectionConstraints        connection_id, product_id
 1,      1
@@ -107,4 +105,10 @@ Wersja: 1
 -- Assets       id, name, initial, value
 1,      money,  3000
 
+-- Visualization       entity_type, entity_id, x, y
+buf, 1, 1, 1
+wst, 1, 3, 1
+wst, 2, 1, 2
+wst, 3, 2, 2
+buf, 5, 3, 2
 `;

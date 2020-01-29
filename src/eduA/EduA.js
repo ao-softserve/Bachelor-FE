@@ -14,9 +14,7 @@ export var edua = (function(r) {
       n.o(r, t) || Object.defineProperty(r, t, { enumerable: !0, get: e });
     }),
     (n.r = function(r) {
-      "undefined" != typeof Symbol &&
-        Symbol.toStringTag &&
-        Object.defineProperty(r, Symbol.toStringTag, { value: "Module" }),
+      "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(r, Symbol.toStringTag, { value: "Module" }),
         Object.defineProperty(r, "__esModule", { value: !0 });
     }),
     (n.t = function(r, t) {

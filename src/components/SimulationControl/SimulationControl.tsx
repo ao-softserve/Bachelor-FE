@@ -8,7 +8,7 @@ import { RootState } from "../../reducers";
 import {
   // timeSelector,
   simRunningSelector,
-  simInfoSelector
+  simSelector
 } from "../../selectors/eduA";
 import { startSimulation } from "../../actions/eduA";
 
@@ -31,7 +31,6 @@ const SimulationControl: React.FC<ISCProps> = ({
   simInfo
   // money
 }) => {
-  console.log(simInfo);
   const handleStartClick = () => {
     startSimulation();
   };
@@ -51,7 +50,7 @@ const mapStateToProps = (state: RootState): SCStoreProps => ({
   // time: timeSelector(state),
   // money: "money",
   simRunning: simRunningSelector(state),
-  simInfo: simInfoSelector(state)
+  simInfo: simSelector(state)
 });
 const mapDispatchToprops: SCDispatchProps = {
   startSimulation
