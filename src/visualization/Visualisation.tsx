@@ -55,7 +55,6 @@ const Visualization: React.FC<VisualizationProps> = ({ visInfo, simInfo, initSim
 
   React.useEffect(() => {
     if (!!simInfo && visInfo.length) {
-      console.log(visInfo);
       draw(VIS_CONTAINER_NAME, handlers, simInfo, visInfo, DIMENTIONS);
     }
   }, [handlers, simInfo, visInfo]);
