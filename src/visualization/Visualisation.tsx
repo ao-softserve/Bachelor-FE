@@ -59,7 +59,7 @@ const Visualization: React.FC<VisualizationProps> = ({ visInfo, simInfo, initSim
     }
   }, [handlers, simInfo, visInfo]);
 
-  return <div style={{ height: "90vh", width: "50%", overflow: "hidden" }} id={VIS_CONTAINER_NAME}></div>;
+  return <div style={{ height: "90vh", width: "70%", overflow: "hidden" }} id={VIS_CONTAINER_NAME}></div>;
 };
 
 const mapStateToProps = (state: RootState): StoreProps => ({
