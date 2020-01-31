@@ -59,9 +59,9 @@ Wersja: 1
 3,      machine for c
 
 -- MachineModes         machine_id, set_id, setup_time
-1,      1,      240
-2,      2,      120
-3,      3,      360
+1,      1,      36
+2,      2,      12
+3,      3,      10
 
 -- MachineResources     machine_id, resource_id, required
 1,      1,      1

@@ -1,10 +1,10 @@
 import React from "react";
 
 import { Header } from "./Header/Header";
-import SimulationControl from "./SimulationControl/SimulationControl";
 
 import Visualisation from "../visualization/Visualisation";
 import { Simulation } from "./AppStyles";
+import { ControlPanel } from "./ControlPanel/ControlPanel";
 
 const App: React.FC<{}> = (props) => {
   return (
@@ -12,7 +12,7 @@ const App: React.FC<{}> = (props) => {
       <Header />
       <Simulation>
         <Visualisation />
-        <SimulationControl />
+        <ControlPanel />
       </Simulation>
     </div>
   );

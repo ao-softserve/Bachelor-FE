@@ -3,7 +3,8 @@ import { Dispatch } from "redux";
 
 import * as actionTypes from "../consts/actionTypes";
 import { edua } from "../eduA/EduA";
-import { spec } from "../simulationsData/producer/eduA-scenario";
+// import { spec } from "../simulationsData/producer/eduA-scenario";
+import { scenario } from "../simulationsData/demo/scenario";
 import { RootState } from "../reducers";
 import { eduAModuleName } from "../reducers/eduA";
 
@@ -12,7 +13,7 @@ export const setSim = (sim: any) => action(actionTypes.SET_SIM, sim);
 export const startSimulation = () => action(actionTypes.START_SIMULATION);
 
 export const initSimulation = () => (dispatch: Dispatch) => {
-  const specification = spec.split("\n");
+  const specification = scenario.split("\n");
   const scen = edua.parse(specification);
   const sim = edua.newSim(scen);
   dispatch(setSim(sim));

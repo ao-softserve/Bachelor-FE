@@ -5,6 +5,7 @@ import { RootState } from "../reducers";
 import { simVisInfoSelector, simInfoSelector } from "../selectors/eduA";
 import { draw } from "./visualization";
 import { initSimulation } from "../actions/eduA";
+import { setWorkstationControl } from "../actions/workstation";
 
 interface StoreProps {
   visInfo: any[];
@@ -13,6 +14,7 @@ interface StoreProps {
 
 interface DispatchProps {
   initSim: typeof initSimulation;
+  setWorkstation: typeof setWorkstationControl;
 }
 
 interface VisDimentions {
@@ -30,13 +32,27 @@ const DIMENTIONS: VisDimentions = {
   height: 4000
 };
 
-const Visualization: React.FC<VisualizationProps> = ({ visInfo, simInfo, initSim }) => {
+const Visualization: React.FC<VisualizationProps> = ({ visInfo, simInfo, initSim, setWorkstation }) => {
   const handlers = [
     [
       "workstation",
       1,
       () => {
-        alert("Workstation callback");
+        setWorkstation(1);
+      }
+    ],
+    [
+      "workstation",
+      2,
+      () => {
+        setWorkstation(2);
+      }
+    ],
+    [
+      "workstation",
+      3,
+      () => {
+        setWorkstation(3);
       }
     ],
     [
@@ -51,7 +67,7 @@ const Visualization: React.FC<VisualizationProps> = ({ visInfo, simInfo, initSim
   React.useEffect(() => {
     initSim();
     //eslint-disable-next-line
-  }, []);
+  }, [initSim]);
 
   React.useEffect(() => {
     if (!!simInfo && visInfo.length) {
@@ -68,7 +84,8 @@ const mapStateToProps = (state: RootState): StoreProps => ({
 });
 
 const mapDispatchToProps: DispatchProps = {
-  initSim: initSimulation
+  initSim: initSimulation,
+  setWorkstation: setWorkstationControl
 };
 
 //@ts-ignore
