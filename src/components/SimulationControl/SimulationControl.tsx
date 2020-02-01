@@ -1,8 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
+import gql from "graphql-tag";
 
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import { useQuery } from "@apollo/react-hooks";
 
 import { RootState } from "../../reducers";
 import { simInfoSelector, simRunningSelector, timeSelector, moneySelector } from "../../selectors/eduA";
@@ -22,6 +24,12 @@ interface SCDispatchProps {
 }
 
 type ISCProps = SCDispatchProps & SCStoreProps;
+
+const GET_RESOURCES = gql`
+  query resources {
+    resources
+  }
+`;
 
 const SimulationControl: React.FC<ISCProps> = ({ time, startSimulation, simRunning, simInfo, startTimer, stopTimer, money }) => {
   React.useEffect(() => {
