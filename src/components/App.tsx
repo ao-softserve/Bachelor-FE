@@ -5,6 +5,7 @@ import SimulationControl from "./SimulationControl/SimulationControl";
 
 import Visualisation from "../visualization/Visualisation";
 import { Simulation } from "./AppStyles";
+import IncomingResources from "./IncomingResurces/IncomingResources";
 
 const App: React.FC<{}> = (props) => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC<{}> = (props) => {
         <Visualisation />
         <SimulationControl />
       </Simulation>
+      <IncomingResources />
     </div>
   );
 };

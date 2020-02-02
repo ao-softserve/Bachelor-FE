@@ -4,31 +4,23 @@ Autor: Tomasz Primke
 Wersja: 1
 
 -- Products     id, name
-1,      raw a
-2,      prod a
-3,      sold a
-4,      raw b
+1,      raw 
+2,      prod 
+3,      sold 
 5,      prod b
-6,      prod c
-7,      sold c
 
 -- Actions      id, name, buffer_id
-1,      buy a,          1
-2,      sell a,         5
-3,      buy b,          1
-4,      sell c,         5
+1,      buy raw,        1
+2,      sell prod,      5
+3,      add raw,        1
+
 
 -- ActionsReqsResults   action_id, req_or_res, type, ref_id, qty
 1,      req,    asset,          1,10
-1,      res,    product,        1,1
 2,      req,    product,        2,1
-2,      res,    product,        3,1
 2,      res,    asset,          1,40
-3,      req,    asset,          1,10
-3,      res,    product,        4,1
-4,      req,    product,        5,1
-4,      res,    product,        7,1
-4,      res,    asset,          1,30
+2,      res,    product,        3,1
+3,      res,    product,        1,1
 
 -- Operations   id, name
 1,      make a
@@ -38,10 +30,10 @@ Wersja: 1
 -- OperationsReqsResults operation_id, req_or_res, type, ref_id, qty
 1,      req,product,1,1
 1,      res,product,2,1
-2,      req,product,4,1
+2,      req,product,1,1
 2,      res,product,5,1
 3,      req,product,5,1
-3,      res,product,6,1
+3,      res,product,2,1
 
 -- Modes        id, name
 1,      mode a

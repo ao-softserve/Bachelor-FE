@@ -4,10 +4,9 @@ import gql from "graphql-tag";
 
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { useQuery } from "@apollo/react-hooks";
 
 import { RootState } from "../../reducers";
-import { simInfoSelector, simRunningSelector, timeSelector, moneySelector } from "../../selectors/eduA";
+import { simInfoSelector, simRunningSelector, timeSelector, moneySelector, rawProductsSelector } from "../../selectors/eduA";
 import { startSimulation, startTimer, stopTimer } from "../../actions/eduA";
 import { SCWrapper, SCTitle } from "./SimulationControlStyles";
 
@@ -16,6 +15,7 @@ interface SCStoreProps {
   money: string;
   simRunning: boolean | undefined;
   simInfo: any;
+  rawProducts: number | string;
 }
 interface SCDispatchProps {
   startSimulation: typeof startSimulation;
@@ -25,13 +25,16 @@ interface SCDispatchProps {
 
 type ISCProps = SCDispatchProps & SCStoreProps;
 
-const GET_RESOURCES = gql`
-  query resources {
-    resources
-  }
-`;
-
-const SimulationControl: React.FC<ISCProps> = ({ time, startSimulation, simRunning, simInfo, startTimer, stopTimer, money }) => {
+const SimulationControl: React.FC<ISCProps> = ({
+  rawProducts,
+  time,
+  startSimulation,
+  simRunning,
+  simInfo,
+  startTimer,
+  stopTimer,
+  money
+}) => {
   React.useEffect(() => {
     return () => {
       stopTimer();
@@ -59,12 +62,15 @@ const SimulationControl: React.FC<ISCProps> = ({ time, startSimulation, simRunni
 
   const moneyInfo = <Typography variant="body1">{`Money: ${money}`}</Typography>;
 
+  const rawProductsInfo = <Typography variant="body1">{`Raw Products: ${rawProducts}`}</Typography>;
+
   return (
     <SCWrapper>
       {title}
       {startButton}
       {timeInfo}
       {moneyInfo}
+      {rawProductsInfo}
     </SCWrapper>
   );
 };
@@ -73,7 +79,8 @@ const mapStateToProps = (state: RootState): SCStoreProps => ({
   time: timeSelector(state),
   money: moneySelector(state),
   simRunning: simRunningSelector(state),
-  simInfo: simInfoSelector(state)
+  simInfo: simInfoSelector(state),
+  rawProducts: rawProductsSelector(state)
 });
 const mapDispatchToprops: SCDispatchProps = {
   startSimulation,
