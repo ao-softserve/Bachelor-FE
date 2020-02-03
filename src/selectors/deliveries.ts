@@ -5,3 +5,5 @@ export const deliveriesRootSelector = (state: RootState) => state[deliveriesModu
 
 export const deliveriesSelector = (state: RootState) => deliveriesRootSelector(state).deliveries;
 export const availibleResourcesSelector = (state: RootState) => deliveriesRootSelector(state).availibleResources;
+
+export const shipmentsSelector = (state:RootState) => deliveriesRootSelector(state).shipments

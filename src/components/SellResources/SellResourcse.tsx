@@ -1,3 +1,4 @@
+//@ts-ignore
 import React from "react";
 import { TextField, Button } from "@material-ui/core";
 import gql from "graphql-tag";
@@ -5,27 +6,28 @@ import { useMutation } from "@apollo/react-hooks";
 import { connect } from "react-redux";
 import { RootState } from "../../reducers";
 import { userIdSelector, simRunningSelector, moneySelector } from "../../selectors/eduA";
-import { BRWrapper, BRButtonWrapper } from "./BuyResourcesStyles";
+
 import { addNewDelivery } from "../../actions/deliveries";
 import { execSimBuy } from "../../actions/eduA";
 import { availibleResourcesSelector } from "../../selectors/deliveries";
+import { SRButtonWrapper, SRWrapper } from "./SellResourcesStyle";
 
-interface BRStoreProps {
+interface SRStoreProps {
   userId: number;
   simRunning: boolean;
   money: number | string;
   availibleResources: number | string;
 }
-interface BRDispatchProps {
+interface SRDispatchProps {
   addNewDelivery: typeof addNewDelivery;
   execSimBuy: typeof execSimBuy;
 }
-type BRProps = BRStoreProps & BRDispatchProps;
+type ARProps = SRStoreProps & SRDispatchProps;
 
 export const PRICE = 10;
-const ORDER_RES = gql`
-  mutation OrderResource($userId: Int!, $qty: Int!) {
-    orderResource(userId: $userId, qty: $qty) {
+const SELL_RES = gql`
+  mutation SellResource($userId: Int!, $qty: Int!) {
+    sellResources(userId: $userId, qty: $qty) {
       userId
       toSell
       toBuy
@@ -34,32 +36,29 @@ const ORDER_RES = gql`
   }
 `;
 
-const BuyResources: React.FC<BRProps> = ({ userId, execSimBuy, money }) => {
-  const [resToBuy, setResToBuy] = React.useState(0);
+const SellResources: React.FC<ARProps> = ({ userId, execSimBuy, money }) => {
+  const [prodToSellQty, setProdToSellQty] = React.useState(0);
 
-  const [orderResource, { data }] = useMutation(ORDER_RES);
+  const [sellResources, { data }] = useMutation(SELL_RES);
   const handleResourcesChange = (e: any) => {
     e.persist();
-    setResToBuy(e.target.value);
+    setProdToSellQty(e.target.value);
   };
 
-  const hasEnoughMoney = money > PRICE * resToBuy;
-
-  const canBuy = hasEnoughMoney && resToBuy > 0;
   const handleBuyButton = () => {
     //@ts-ignore
-    orderResource({ variables: { userId: parseInt(userId), qty: parseInt(resToBuy) } });
-    execSimBuy(resToBuy);
+    sellResources({ variables: { userId: parseInt(userId), qty: parseInt(prodToSellQty) } });
+    // execSimSell(prodToSellQty);
   };
 
   const input = (
     <TextField
+      value={prodToSellQty}
       id="standard-number"
-      label="Resources To Buy"
+      label="Products To Sell"
       type="number"
-      placeholder="Resources To Buy"
-      variant="outlined"
-      error={!canBuy}
+      placeholder="Products To Buy"
+      variant="outlined"      
       InputLabelProps={{
         shrink: true
       }}
@@ -68,34 +67,31 @@ const BuyResources: React.FC<BRProps> = ({ userId, execSimBuy, money }) => {
   );
 
   const buyButton = (
-    <BRButtonWrapper>
+    <SRButtonWrapper>
       <Button
         variant="contained"
         color="primary"
         onClick={handleBuyButton}
-        disabled={
-          !canBuy
-          // !simRunning
-        }
+        // disabled={ !simRunning }
       >
-        Order
+        Sell
       </Button>
-    </BRButtonWrapper>
+    </SRButtonWrapper>
   );
 
   return (
-    <BRWrapper>
+    <SRWrapper>
       {input}
       {buyButton}
-    </BRWrapper>
+    </SRWrapper>
   );
 };
 
-const mapStateToProps = (state: RootState): BRStoreProps => ({
+const mapStateToProps = (state: RootState): SRStoreProps => ({
   userId: userIdSelector(state),
   simRunning: simRunningSelector(state),
   money: moneySelector(state),
   availibleResources: availibleResourcesSelector(state)
 });
 //@ts-ignore
-export default connect(mapStateToProps, { addNewDelivery, execSimBuy })(BuyResources);
+export default connect(mapStateToProps, { addNewDelivery, execSimBuy })(SellResources);

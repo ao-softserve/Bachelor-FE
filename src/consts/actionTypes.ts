@@ -10,3 +10,5 @@ export const SET_USER_ID = "GET_USER_ID";
 
 export const ADD_NEW_DELIVERY = "ADD_NEW_DELIVERY";
 export const ADD_AVAILIBLE_RES = "ADD_AVAILIBLE_RES";
+
+export const ADD_NEW_SHIPMENT = "ADD_NEW_SHIPMENT";
