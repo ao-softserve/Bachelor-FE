@@ -4,8 +4,9 @@ import { Header } from "./Header/Header";
 import SimulationControl from "./SimulationControl/SimulationControl";
 
 import Visualisation from "../visualization/Visualisation";
-import { Simulation } from "./AppStyles";
+import { Simulation, ProductExchange } from "./AppStyles";
 import IncomingResources from "./IncomingResurces/IncomingResources";
+import ShipmentControl from "./ShipmentControl/ShipmentControl";
 
 const App: React.FC<{}> = (props) => {
   return (
@@ -15,7 +16,10 @@ const App: React.FC<{}> = (props) => {
         <Visualisation />
         <SimulationControl />
       </Simulation>
-      <IncomingResources />
+      <ProductExchange>
+        <IncomingResources />
+        <ShipmentControl />
+      </ProductExchange>
     </div>
   );
 };

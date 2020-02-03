@@ -67,3 +67,14 @@ export const execSimBuy = (qty: number | string) => (dispatch: Dispatch, getStat
     simulation = newSim;
   }
 };
+
+export const execSimSell = (qty: number | string) => (dispatch: Dispatch, getState: () => RootState) => {
+  const { sim } = getState()[eduAModuleName];
+  let simulation = sim;
+
+  for (let i = 1; i <= qty; i++) {
+    const [result, newSim] = edua.execAction(simulation, 2);
+    dispatch(setSim(newSim));
+    simulation = newSim;
+  }
+};
