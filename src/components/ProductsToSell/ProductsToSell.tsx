@@ -1,62 +1,31 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import gql from "graphql-tag";
 import { useSubscription, useQuery } from "@apollo/react-hooks";
-import { connect } from "react-redux";
-import { RootState } from "../../reducers";
-import { userIdSelector } from "../../selectors/eduA";
-import { addAvailibleResources } from "../../actions/deliveries";
 
-interface ARStoreProps {
-  userId: number;
-}
-interface ARDispatchProps {
-  addAvailibleResources: typeof addAvailibleResources;
-}
-type ARProps = ARStoreProps & ARDispatchProps;
+import { observer } from "mobx-react";
+import { StoreContext } from "../..";
+import { RootStore } from "../../stores";
+import { AvailibleResource, AVAILIBLE_RESOURCES_SUBSCRIPTION } from "../../api/resources/subscription";
+import { AVAILIBLE_RES_QUERY } from "../../api/resources/query";
 
-const AVAILIBLE_RESOURCES_SUBSCRIPTION = gql`
-  subscription onAvailibleResourceChange {
-    availibleResourcesChanged {
-      userId
-      deliveryTime
-      toBuy
-      toSell
-    }
-  }
-`;
+export const ProductsToSell: React.FC = observer(() => {
+  const { common } = React.useContext<RootStore>(StoreContext);
 
-const AVAILIBLE_RES_QUERY = gql`
-  query Resources {
-    resources {
-      userId
-      deliveryTime
-      toBuy
-      toSell
-    }
-  }
-`;
+  const { loading, data } = useSubscription<{ availibleResourcesChanged: AvailibleResource[] }>(AVAILIBLE_RESOURCES_SUBSCRIPTION);
 
-const ProductsToSell: React.FC<ARProps> = ({ userId, addAvailibleResources }) => {
-  const { loading, data } = useSubscription(AVAILIBLE_RESOURCES_SUBSCRIPTION);
-
-  const availibleRes = useQuery(AVAILIBLE_RES_QUERY);
+  const availibleRes = useQuery<{ resources: AvailibleResource[] }>(AVAILIBLE_RES_QUERY);
 
   const subscriptionResources = data && data.availibleResourcesChanged && data.availibleResourcesChanged;
 
   const queryResources = availibleRes && availibleRes.data && availibleRes.data.resources;
 
   const clientResource =
-    (subscriptionResources && subscriptionResources.find((res: any) => res.userId === userId + 1)) ||
-    (queryResources && queryResources.find((res: any) => res.userId === userId + 1));
+    (subscriptionResources && subscriptionResources.find((res: any) => res.userId === common.userId + 1)) ||
+    (queryResources && queryResources.find((res: any) => res.userId === common.userId + 1));
 
   const myResource =
-    (subscriptionResources && subscriptionResources.find((res: any) => res.userId === userId)) ||
-    (queryResources && queryResources.find((res: any) => res.userId === userId));
-
-  React.useEffect(() => {
-    clientResource && addAvailibleResources(clientResource.qty);
-  }, [addAvailibleResources, clientResource]);
+    (subscriptionResources && subscriptionResources.find((res: any) => res.userId === common.userId)) ||
+    (queryResources && queryResources.find((res: any) => res.userId === common.userId));
 
   const availibleToBuy = <Typography variant="body1">Products customer want to buy: {clientResource && clientResource.toBuy}</Typography>;
   const deliveryTime = <Typography variant="body1">Shipment time to customer: {myResource && myResource.deliveryTime}</Typography>;
@@ -68,11 +37,4 @@ const ProductsToSell: React.FC<ARProps> = ({ userId, addAvailibleResources }) =>
       {wantToSell}
     </>
   );
-};
-
-const mapStateToProps = (state: RootState): ARStoreProps => ({
-  userId: userIdSelector(state)
 });
-
-//@ts-ignore
-export default connect(mapStateToProps, { addAvailibleResources })(ProductsToSell);
