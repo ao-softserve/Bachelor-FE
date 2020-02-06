@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { observer } from "mobx-react";
 
 import { draw } from "./visualization";
-import { initSimulation } from "../actions/eduA";
 import { StoreContext } from "..";
 import { RootStore } from "../stores";
 
@@ -11,17 +10,11 @@ interface StoreProps {
   simInfo: any;
 }
 
-interface DispatchProps {
-  initSim: typeof initSimulation;
-}
-
 interface VisDimentions {
   width: number;
   height: number;
   scale: number;
 }
-
-type VisualizationProps = StoreProps & DispatchProps;
 
 const VIS_CONTAINER_NAME = "VIS_CONTAINER";
 const DIMENTIONS: VisDimentions = {
