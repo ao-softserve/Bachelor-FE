@@ -2356,8 +2356,7 @@ export var edua = (function(r) {
       }),
       (t.areProductsInBuffer = A),
       (t.actionReady = function(r, t) {
-        console.log("R:", r)
-        console.log("T:", t)
+
         var n = t[2];
         if (n.tag) {
           var e = n[0],

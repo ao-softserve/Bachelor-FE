@@ -1,11 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
 
 import "./index.css";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
-import { store } from "./store";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import ApolloClient from "apollo-client";
@@ -55,9 +53,7 @@ export const StoreContext = React.createContext();
 ReactDOM.render(
   <StoreContext.Provider value={rootStore}>
     <ApolloProvider client={GraphQLClient}>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <App />
     </ApolloProvider>
   </StoreContext.Provider>,
   document.getElementById("root")
