@@ -1,27 +1,44 @@
 import React from "react";
 
 import { Header } from "./Header/Header";
-import SimulationControl from "./SimulationControl/SimulationControl";
+import { SimulationControl } from "./SimulationControl/SimulationControl";
 
-import Visualisation from "../visualization/Visualisation";
+import { Visualization } from "../visualization/Visualisation";
 import { Simulation, ProductExchange } from "./AppStyles";
-import IncomingResources from "./IncomingResurces/IncomingResources";
-import ShipmentControl from "./ShipmentControl/ShipmentControl";
+import { IncomingResources } from "./IncomingResurces/IncomingResources";
+import { ShipmentControl } from "./ShipmentControl/ShipmentControl";
+import { observer } from "mobx-react";
+import { StoreContext } from "..";
+import { RootStore } from "../stores";
+import { spec } from "../simulationsData/producer/eduA-scenario";
 
-const App: React.FC<{}> = (props) => {
+const App: React.FC = observer(() => {
+  const {
+    edua: { simInitialized, initSim }
+  } = React.useContext<RootStore>(StoreContext);
+
+  React.useEffect(() => {
+    initSim(spec);
+    //eslint-disable-next-line
+  }, [])
+
   return (
     <div className="App">
       <Header />
-      <Simulation>
-        <Visualisation />
-        <SimulationControl />
-      </Simulation>
-      <ProductExchange>
-        <IncomingResources />
-        <ShipmentControl />
-      </ProductExchange>
+      {simInitialized && (
+        <div>
+          <Simulation>
+            <Visualization />
+            <SimulationControl />
+          </Simulation>
+          <ProductExchange>
+            <IncomingResources />
+            <ShipmentControl />
+          </ProductExchange>
+        </div>
+      )}
     </div>
   );
-};
+});
 
 export default App;

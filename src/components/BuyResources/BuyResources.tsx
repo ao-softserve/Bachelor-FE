@@ -2,25 +2,12 @@ import React from "react";
 import { TextField, Button } from "@material-ui/core";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
-import { connect } from "react-redux";
-import { RootState } from "../../reducers";
-import { userIdSelector, simRunningSelector, moneySelector } from "../../selectors/eduA";
-import { BRWrapper, BRButtonWrapper } from "./BuyResourcesStyles";
-import { addNewDelivery } from "../../actions/deliveries";
-import { execSimBuy } from "../../actions/eduA";
-import { availibleResourcesSelector } from "../../selectors/deliveries";
 
-interface BRStoreProps {
-  userId: number;
-  simRunning: boolean;
-  money: number | string;
-  availibleResources: number | string;
-}
-interface BRDispatchProps {
-  addNewDelivery: typeof addNewDelivery;
-  execSimBuy: typeof execSimBuy;
-}
-type BRProps = BRStoreProps & BRDispatchProps;
+import { BRWrapper, BRButtonWrapper } from "./BuyResourcesStyles";
+
+import { observer } from "mobx-react";
+import { StoreContext } from "../..";
+import { RootStore } from "../../stores";
 
 export const PRICE = 10;
 const ORDER_RES = gql`
@@ -34,7 +21,8 @@ const ORDER_RES = gql`
   }
 `;
 
-const BuyResources: React.FC<BRProps> = ({ userId, execSimBuy, money }) => {
+export const BuyResources: React.FC = observer(() => {
+  const { common, edua } = React.useContext<RootStore>(StoreContext);
   const [resToBuy, setResToBuy] = React.useState(0);
 
   const [orderResource, { data }] = useMutation(ORDER_RES);
@@ -43,13 +31,13 @@ const BuyResources: React.FC<BRProps> = ({ userId, execSimBuy, money }) => {
     setResToBuy(e.target.value);
   };
 
-  const hasEnoughMoney = money > PRICE * resToBuy;
+  const hasEnoughMoney = edua.money > PRICE * resToBuy;
 
   const canBuy = hasEnoughMoney && resToBuy > 0;
   const handleBuyButton = () => {
     //@ts-ignore
-    orderResource({ variables: { userId: parseInt(userId), qty: parseInt(resToBuy) } });
-    execSimBuy(resToBuy);
+    orderResource({ variables: { userId: parseInt(common.userId), qty: parseInt(resToBuy) } });
+    edua.execBuyAction(resToBuy);
   };
 
   const input = (
@@ -89,13 +77,4 @@ const BuyResources: React.FC<BRProps> = ({ userId, execSimBuy, money }) => {
       {buyButton}
     </BRWrapper>
   );
-};
-
-const mapStateToProps = (state: RootState): BRStoreProps => ({
-  userId: userIdSelector(state),
-  simRunning: simRunningSelector(state),
-  money: moneySelector(state),
-  availibleResources: availibleResourcesSelector(state)
 });
-//@ts-ignore
-export default connect(mapStateToProps, { addNewDelivery, execSimBuy })(BuyResources);

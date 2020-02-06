@@ -1,24 +1,17 @@
 import React from "react";
-
-import { connect } from "react-redux";
-import { RootState } from "../../reducers";
-import { userIdSelector } from "../../selectors/eduA";
-import AvailibleRes from "../AvailibleRes/AvailibleRes";
-import BuyResources from "../BuyResources/BuyResources";
-import DeliveryProgress from "../DeliveryProgress/DeliveryProgress";
-import { IRWrapper } from "./IncomingResourcesStyles";
+import { observer } from "mobx-react";
 import { Typography } from "@material-ui/core";
 import { useSubscription } from "@apollo/react-hooks";
-import { addNewDelivery } from "../../actions/deliveries";
 import gql from "graphql-tag";
 
-interface RStoreProps {
-  userId: number;
-}
-interface RDispatchProps {
-  addNewDelivery: typeof addNewDelivery;
-}
-type RProps = RStoreProps & RDispatchProps;
+import { IRWrapper } from "./IncomingResourcesStyles";
+
+import { AvailibleRes } from "../AvailibleRes/AvailibleRes";
+import { BuyResources } from "../BuyResources/BuyResources";
+import { DeliveryProgress } from "../DeliveryProgress/DeliveryProgress";
+
+import { StoreContext } from "../..";
+import { RootStore } from "../../stores";
 
 interface Resource {
   userId: number;
@@ -36,20 +29,23 @@ const BOUGHT_RES_SUBSCRIPTION = gql`
   }
 `;
 
-const IncomingResources: React.FC<RProps> = ({ userId, addNewDelivery }) => {
-  const title = <Typography variant="h6">Delivery Control</Typography>;
+export const IncomingResources: React.FC = observer(() => {
+  const { resources, common } = React.useContext<RootStore>(StoreContext);
+
   const { loading, data } = useSubscription(BOUGHT_RES_SUBSCRIPTION);
 
   React.useEffect(() => {
-    const resBought = data && data.boughtResource && data.boughtResource.find((res: Resource) => res.userId === userId);
+    const resBought = data && data.boughtResource && data.boughtResource.find((res: Resource) => res.userId === common.userId);
     resBought &&
-      addNewDelivery({
+      resources.addDelivery({
         name: "Incoming Delivery",
         qty: resBought.qty,
         deliveryTime: resBought.deliveryTime,
         deliveryTimeLeft: resBought.deliveryTime
       });
-  }, [addNewDelivery, data, userId]);
+  }, [common.userId, data, resources, resources.addDelivery]);
+
+  const title = <Typography variant="h6">Delivery Control</Typography>;
 
   return (
     <IRWrapper>
@@ -59,10 +55,4 @@ const IncomingResources: React.FC<RProps> = ({ userId, addNewDelivery }) => {
       <DeliveryProgress />
     </IRWrapper>
   );
-};
-
-const mapStateToProps = (state: RootState): RStoreProps => ({
-  userId: userIdSelector(state)
 });
-
-export default connect(mapStateToProps, { addNewDelivery })(IncomingResources);

@@ -13,6 +13,7 @@ import { WebSocketLink } from "apollo-link-ws";
 import { split } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
 import { getMainDefinition } from "apollo-utilities";
+import { rootStore } from "./stores";
 
 const httpLink = new HttpLink({
   uri: "http://localhost:5000/graphql"
@@ -39,12 +40,26 @@ const GraphQLClient = new ApolloClient({
   cache: new InMemoryCache()
 });
 
+// const defaultValues: RootStore = {
+//   edua: {
+//     sim: [],
+//     simTime: 0
+//   },
+//   common: {
+//     userId: 1
+//   }
+// };
+
+export const StoreContext = React.createContext();
+
 ReactDOM.render(
-  <ApolloProvider client={GraphQLClient}>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </ApolloProvider>,
+  <StoreContext.Provider value={rootStore}>
+    <ApolloProvider client={GraphQLClient}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ApolloProvider>
+  </StoreContext.Provider>,
   document.getElementById("root")
 );
 
