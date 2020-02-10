@@ -8,6 +8,8 @@ import { SimResources } from "../SimResources/SimResources";
 import { SetupButton } from "../SetupButton/SetupButton";
 import { TransferProducts } from "../TransferProducts/TransferProducts";
 import { StartOperation } from "../StartOperation/StartOperation";
+import connections from "../../simulationsData/producer/connections";
+import CONNECTIONS_CONSTRAINS, { ConnectionConstrain } from "../../simulationsData/producer/connectionConstrains";
 
 export const WorkstationControl: React.FC = observer(() => {
   const { common, edua } = React.useContext<RootStore>(StoreContext);
@@ -15,18 +17,26 @@ export const WorkstationControl: React.FC = observer(() => {
   const currentWorkstation = edua.workstations.find((wst) => wst.id === common.workstationControled);
   //eslint-disable-next-line
   const workstationStatus = currentWorkstation!.status
+  const getConstrainProd = (connId: number) =>
+    CONNECTIONS_CONSTRAINS.find((conn: ConnectionConstrain) => conn.connectionId === connId)!.productId;
+
+  const connectionsWithProds = connections.map((conn) => ({ ...conn, productId: getConstrainProd(conn.id) }));
 
   const currentWstBuffor = edua.buffers.find((buf) => buf.id === currentWorkstation!.buffer_id);
 
   const canDisplayTransfer = workstationStatus !== "not ready";
 
-  const products = currentWstBuffor!.products.length
-    ? currentWstBuffor!.products.sort((prodA, prodB) => prodA.product_id - prodB.product_id)
-    : [];
+  const rawProdId = connectionsWithProds.find((conn) => conn.to === currentWorkstation!.buffer_id)!.productId;
 
-  const rawProducts = products.length > 0 ? products[0].qty : 0;
+  const readyProdId = connectionsWithProds.find((conn) => conn.from === currentWorkstation!.buffer_id)!.productId;
 
-  const readyProducts = products.length > 1 ? products[1].qty : 0;
+  const products = currentWstBuffor!.products.length ? currentWstBuffor!.products : [];
+
+  const getProduct = (id: number) => (products.length ? products.find((prod) => prod.product_id === id) : { qty: 0 });
+
+  const rawProducts = getProduct(rawProdId) ? getProduct(rawProdId)!.qty : 0;
+
+  const readyProducts = getProduct(readyProdId) ? getProduct(readyProdId)!.qty : 0;
 
   const title = <Typography variant="h5">{`Workstation ${common.workstationControled} Control`}</Typography>;
 
