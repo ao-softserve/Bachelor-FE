@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { SCWrapper, SCTitle } from "./SimulationControlStyles";
 import { StoreContext } from "../..";
 import { RootStore } from "../../stores";
+import { TransferFromBuff } from "../TransferFromBuff/TransferFromBuff";
 
 export const SimulationControl: React.FC = observer(() => {
   const { edua, common } = React.useContext<RootStore>(StoreContext);
@@ -15,7 +16,8 @@ export const SimulationControl: React.FC = observer(() => {
     return () => {
       edua.stopTimer();
     };
-  }, [edua, edua.stopTimer]);
+    //eslint-disable-next-line
+  }, []);
 
   const handleStartClick = () => {
     common.setSimRunning();
@@ -40,6 +42,10 @@ export const SimulationControl: React.FC = observer(() => {
 
   const rawProductsInfo = <Typography variant="body1">{`Raw Products: ${edua.rawProducts}`}</Typography>;
 
+  const readyProducts = <Typography variant="body1">{`Ready products: ${edua.readyProducts}`}</Typography>;
+
+  const transferFromBuff = <TransferFromBuff />;
+
   return (
     <SCWrapper>
       {title}
@@ -47,6 +53,8 @@ export const SimulationControl: React.FC = observer(() => {
       {timeInfo}
       {moneyInfo}
       {rawProductsInfo}
+      {readyProducts}
+      {transferFromBuff}
     </SCWrapper>
   );
 });

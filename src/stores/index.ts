@@ -1,9 +1,9 @@
-import { EduaStore } from "./edua";
+import { EduaStore, IEduaStore } from "./edua";
 import { CommonStore } from "./common";
 import { ResourcesStore } from "./resources";
 
 export interface RootStore {
-  edua: EduaStore;
+  edua: IEduaStore;
   common: CommonStore;
   resources: ResourcesStore;
 }

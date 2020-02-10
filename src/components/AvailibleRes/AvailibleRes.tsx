@@ -13,7 +13,7 @@ import { observer } from "mobx-react";
 export const AvailibleRes: React.FC = observer(() => {
   const { common } = React.useContext<RootStore>(StoreContext);
 
-  const { loading, data } = useSubscription(AVAILIBLE_RESOURCES_SUBSCRIPTION);
+  const { data } = useSubscription(AVAILIBLE_RESOURCES_SUBSCRIPTION);
 
   const availibleRes = useQuery(AVAILIBLE_RES_QUERY);
 

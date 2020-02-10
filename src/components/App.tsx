@@ -11,6 +11,7 @@ import { observer } from "mobx-react";
 import { StoreContext } from "..";
 import { RootStore } from "../stores";
 import { spec } from "../simulationsData/producer/eduA-scenario";
+import { WorkstationControl } from "./WorkstationControl/WorkstationControl";
 
 const App: React.FC = observer(() => {
   const {
@@ -29,7 +30,10 @@ const App: React.FC = observer(() => {
         <div>
           <Simulation>
             <Visualization />
-            <SimulationControl />
+            <div>
+              <SimulationControl />
+              <WorkstationControl />
+            </div>
           </Simulation>
           <ProductExchange>
             <IncomingResources />

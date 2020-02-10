@@ -25,7 +25,7 @@ export const BuyResources: React.FC = observer(() => {
   const { common, edua } = React.useContext<RootStore>(StoreContext);
   const [resToBuy, setResToBuy] = React.useState(0);
 
-  const [orderResource, { data }] = useMutation(ORDER_RES);
+  const [orderResource] = useMutation(ORDER_RES);
   const handleResourcesChange = (e: any) => {
     e.persist();
     setResToBuy(e.target.value);

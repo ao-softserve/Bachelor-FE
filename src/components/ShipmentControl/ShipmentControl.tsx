@@ -23,7 +23,7 @@ export const ShipmentControl: React.FC = observer(() => {
 
   const title = <Typography variant="h6">Shipment Control</Typography>;
 
-  const { loading, data } = useSubscription<SoldResource>(SOLD_RES_SUBSCRIPTION);
+  const { data } = useSubscription<SoldResource>(SOLD_RES_SUBSCRIPTION);
 
   React.useEffect(() => {
     const resSold = data && data.soldResource && data.soldResource.find((res: Resource) => res.userId === common.userId);

@@ -22,4 +22,20 @@ export class CommonStore {
   public setSimRunning = (): void => {
     this.isSimRunning = true;
   };
+
+  @observable
+  public workstationControled: number = 1;
+
+  @action
+  public setControledWorkstation = (workstation: number): void => {
+    this.workstationControled = workstation;
+  };
+
+  @observable
+  public bufferControled: number = 1;
+
+  @action
+  public setControledBuffer = (buffer: number): void => {
+    this.bufferControled = buffer;
+  };
 }

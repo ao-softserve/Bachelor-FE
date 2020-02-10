@@ -7,7 +7,7 @@ Wersja: 1
 1,      raw 
 2,      prod 
 3,      sold 
-5,      prod b
+4,      prod b
 
 -- Actions      id, name, buffer_id
 1,      buy raw,        1
@@ -31,8 +31,8 @@ Wersja: 1
 1,      req,product,1,1
 1,      res,product,2,1
 2,      req,product,1,1
-2,      res,product,5,1
-3,      req,product,5,1
+2,      res,product,4,1
+3,      req,product,4,1
 3,      res,product,2,1
 
 -- Modes        id, name
@@ -41,9 +41,9 @@ Wersja: 1
 3,      mode c
 
 -- ModeOperations      set_id, operation_id, operation_time
-1,      1,      28
-2,      2,      10
-3,      3,      6
+1,      1,      2
+2,      2,      1
+3,      3,      2
 
 -- Machines     id, name
 1,      machine for a
@@ -51,20 +51,21 @@ Wersja: 1
 3,      machine for c
 
 -- MachineModes         machine_id, set_id, setup_time
-1,      1,      240
-2,      2,      120
-3,      3,      360
+1,      1,      5
+2,      2,      10
+3,      3,      3
 
 -- MachineResources     machine_id, resource_id, required
 1,      1,      1
 2,      2,      1
-3,      1,      1
+3,      3,      1
 
 -- MachineModeResources machine_id, set_id, resource_id, required
 
 -- Resources id, name, available, operation_time
 1,      red,    1,0
 2,      green,  1,0
+3,      blue,   1,0
 
 -- Buffers      id, name
 1,      main input
@@ -90,9 +91,9 @@ Wersja: 1
 -- ConnectionConstraints        connection_id, product_id
 1,      1
 2,      2
-3,      4
-4,      5
-5,      6
+3,      1
+4,      4
+5,      2
 
 -- Assets       id, name, initial, value
 1,      money,  3000
