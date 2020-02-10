@@ -8,13 +8,16 @@ export const draw = (dom_elm_id_name, handlers, info, visInfo, dimentions) => {
   let buffersInfo = [];
   let allBuffersInfo = infoData.buffers;
 
-  const firstBuffer = allBuffersInfo.splice(0, 1);
-  const lastBuffer = allBuffersInfo.splice(allBuffersInfo.length - 1, 1);
-  buffersInfo.push(firstBuffer[0]);
-  buffersInfo.push(lastBuffer[0]);
+  const firstBuffer = allBuffersInfo.find((buffer) => buffer.id === 1);
+
+  const lastBuffer = allBuffersInfo.find((buffer) => buffer.id === allBuffersInfo.length - 1);
+  buffersInfo = [firstBuffer, lastBuffer];
+
   const SCALE = dimentions.scale;
   const WIDTH = dimentions.width;
   const HEIGHT = dimentions.height * SCALE;
+
+  document.getElementById(dom_elm_id_name).innerHTML = "";
   const svg = d3
     // eslint-disable-next-line @typescript-eslint/camelcase
     .select("div#" + dom_elm_id_name)

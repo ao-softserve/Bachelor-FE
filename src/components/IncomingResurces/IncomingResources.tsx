@@ -32,7 +32,7 @@ const BOUGHT_RES_SUBSCRIPTION = gql`
 export const IncomingResources: React.FC = observer(() => {
   const { resources, common } = React.useContext<RootStore>(StoreContext);
 
-  const { loading, data } = useSubscription(BOUGHT_RES_SUBSCRIPTION);
+  const { data } = useSubscription(BOUGHT_RES_SUBSCRIPTION);
 
   React.useEffect(() => {
     const resBought = data && data.boughtResource && data.boughtResource.find((res: Resource) => res.userId === common.userId);

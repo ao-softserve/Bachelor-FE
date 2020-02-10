@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext", "ES6"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "ES6"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,10 +20,15 @@
     "noEmit": true,
     "jsx": "react",
     "noImplicitAny": true,
-    "noImplicitThis": true,
+    "noImplicitThis": false,
+    "noUnusedLocals": false,
     "strictNullChecks": true,
     "experimentalDecorators": true
   },
-  "include": ["src"],
-  "exclude": ["src/eduA"]
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "src/eduA"
+  ]
 }

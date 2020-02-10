@@ -11,7 +11,7 @@ import { AVAILIBLE_RES_QUERY } from "../../api/resources/query";
 export const ProductsToSell: React.FC = observer(() => {
   const { common } = React.useContext<RootStore>(StoreContext);
 
-  const { loading, data } = useSubscription<{ availibleResourcesChanged: AvailibleResource[] }>(AVAILIBLE_RESOURCES_SUBSCRIPTION);
+  const { data } = useSubscription<{ availibleResourcesChanged: AvailibleResource[] }>(AVAILIBLE_RESOURCES_SUBSCRIPTION);
 
   const availibleRes = useQuery<{ resources: AvailibleResource[] }>(AVAILIBLE_RES_QUERY);
 

@@ -16,6 +16,11 @@ interface VisDimentions {
   scale: number;
 }
 
+interface VisInfoItem {
+  type: "workstation" | "buffer";
+  id: number;
+}
+
 const VIS_CONTAINER_NAME = "VIS_CONTAINER";
 const DIMENTIONS: VisDimentions = {
   scale: 2,
@@ -24,32 +29,20 @@ const DIMENTIONS: VisDimentions = {
 };
 
 export const Visualization: React.FC = observer(() => {
-  const {
-    edua: { simInfo, visInfo }
-  } = useContext<RootStore>(StoreContext);
+  const { edua, common } = useContext<RootStore>(StoreContext);
+  const handleClick = (item: VisInfoItem) => {
+    if (item.type === "workstation") {
+      common.setControledWorkstation(item.id);
+    } else if (item.type === "buffer") common.setControledBuffer(item.id);
+  };
 
-  const handlers = [
-    [
-      "workstation",
-      1,
-      () => {
-        alert("Workstation callback");
-      }
-    ],
-    [
-      "buffer",
-      1,
-      () => {
-        alert("Buffer callback");
-      }
-    ]
-  ];
+  const handlers = edua.visInfo.map((item: VisInfoItem) => [item.type, item.id, () => handleClick(item)]);
 
   React.useEffect(() => {
-    if (!!simInfo && visInfo.length) {
-      draw(VIS_CONTAINER_NAME, handlers, simInfo, visInfo, DIMENTIONS);
+    if (!!edua.simInfo && edua.visInfo.length) {
+      draw(VIS_CONTAINER_NAME, handlers, edua.simInfo, edua.visInfo, DIMENTIONS);
     }
-  }, [handlers, simInfo, visInfo]);
+  }, [edua.simInfo, edua.visInfo, handlers]);
 
   return <div style={{ height: "90vh", width: "70%", overflow: "hidden" }} id={VIS_CONTAINER_NAME}></div>;
 });

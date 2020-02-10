@@ -13,17 +13,19 @@ import { observer } from "mobx-react";
 export const PRICE = 10;
 
 export const SellResources: React.FC = observer(() => {
-  const { common } = React.useContext<RootStore>(StoreContext);
+  const { common, edua } = React.useContext<RootStore>(StoreContext);
 
   const [prodToSellQty, setProdToSellQty] = React.useState(0);
 
-  const [sellResources, { data }] = useMutation(SELL_RES);
+  const [sellResources] = useMutation(SELL_RES);
   const handleResourcesChange = (e: any) => {
     e.persist();
     setProdToSellQty(e.target.value);
   };
 
-  const handleBuyButton = () => {
+  const handleSellButton = () => {
+    //@ts-ignore
+    edua.execSellAction(parseInt(prodToSellQty));
     //@ts-ignore
     sellResources({ variables: { userId: parseInt(common.userId), qty: parseInt(prodToSellQty) } });
   };
@@ -43,12 +45,12 @@ export const SellResources: React.FC = observer(() => {
     />
   );
 
-  const buyButton = (
+  const sellButton = (
     <SRButtonWrapper>
       <Button
         variant="contained"
         color="primary"
-        onClick={handleBuyButton}
+        onClick={handleSellButton}
       // disabled={ !simRunning }
       >
         Sell
@@ -59,7 +61,7 @@ export const SellResources: React.FC = observer(() => {
   return (
     <SRWrapper>
       {input}
-      {buyButton}
+      {sellButton}
     </SRWrapper>
   );
 });
