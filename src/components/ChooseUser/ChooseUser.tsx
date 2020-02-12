@@ -42,8 +42,14 @@ export const ChooseUser: React.FC = observer(() => {
   const handleRadio = (e: any) => {
     e.persist();
     setUserSelected(e.target.value);
-    getIsTaken(e.target.value) ? setErrorMsg("This user is already taken") : setErrorMsg("");
   };
+
+  React.useEffect(() => {
+    if (userSelected) {
+      getIsTaken(userSelected) ? setErrorMsg("This user is already taken") : setErrorMsg("");
+    }
+    //eslint-disable-next-line
+  }, [usersChanged, userSelected]);
 
   React.useEffect(() => {
     //@ts-ignore
