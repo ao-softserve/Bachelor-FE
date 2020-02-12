@@ -31,6 +31,16 @@ export const AVAILIBLE_RESOURCES_SUBSCRIPTION = gql`
   }
 `;
 
+export const USERS_CHANGED_SUBSCRIPTION = gql`
+  subscription OnUsersChanged {
+    usersChanged {
+      id
+      name
+      taken
+    }
+  }
+`;
+
 export interface AvailibleResource {
   userId: number;
   deliveryTime: number;

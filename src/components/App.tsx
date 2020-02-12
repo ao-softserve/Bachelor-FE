@@ -12,9 +12,11 @@ import { StoreContext } from "..";
 import { RootStore } from "../stores";
 import { spec } from "../simulationsData/producer/eduA-scenario";
 import { WorkstationControl } from "./WorkstationControl/WorkstationControl";
+import { ChooseUser } from "./ChooseUser/ChooseUser";
 
 const App: React.FC = observer(() => {
   const {
+    common,
     edua: { simInitialized, initSim }
   } = React.useContext<RootStore>(StoreContext);
 
@@ -23,24 +25,27 @@ const App: React.FC = observer(() => {
     //eslint-disable-next-line
   }, [])
 
+  const content = simInitialized && !!common.userName && (
+    <div>
+      <Simulation>
+        <Visualization />
+        <div>
+          <SimulationControl />
+          <WorkstationControl />
+        </div>
+      </Simulation>
+      <ProductExchange>
+        <IncomingResources />
+        <ShipmentControl />
+      </ProductExchange>
+    </div>
+  );
+
   return (
     <div className="App">
       <Header />
-      {simInitialized && (
-        <div>
-          <Simulation>
-            <Visualization />
-            <div>
-              <SimulationControl />
-              <WorkstationControl />
-            </div>
-          </Simulation>
-          <ProductExchange>
-            <IncomingResources />
-            <ShipmentControl />
-          </ProductExchange>
-        </div>
-      )}
+      {!common.userName && <ChooseUser />}
+      {content}
     </div>
   );
 });

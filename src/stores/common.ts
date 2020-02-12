@@ -16,6 +16,14 @@ export class CommonStore {
   };
 
   @observable
+  public userName = "";
+
+  @action
+  public setUserName = (name: string) => {
+    this.userName = name;
+  };
+
+  @observable
   public isSimRunning: boolean = false;
 
   @action
