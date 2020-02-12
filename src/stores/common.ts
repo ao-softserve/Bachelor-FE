@@ -5,6 +5,13 @@ export class CommonStore {
 
   constructor(rootStore: object) {
     this.rootStore = rootStore;
+    this.devMode = true;
+    if (this.devMode) {
+      this.userName = "Producer 1";
+      this.userId = 1;
+      this.ipAddress = "localhost";
+      this.port = "5000";
+    }
   }
 
   @observable
@@ -62,4 +69,6 @@ export class CommonStore {
   public setPort = (port: string) => {
     this.port = port;
   };
+
+  public devMode: boolean;
 }
