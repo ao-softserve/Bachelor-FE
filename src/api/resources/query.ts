@@ -20,3 +20,23 @@ interface Resource {
 export interface Resources {
   resources: Resource[];
 }
+
+export const USERS_QUERY = gql`
+  query Users {
+    users {
+      name
+      id
+      taken
+    }
+  }
+`;
+
+export interface User {
+  id: number;
+  name: string;
+  taken: boolean;
+}
+
+export interface Users {
+  users: User[];
+}

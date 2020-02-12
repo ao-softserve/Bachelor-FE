@@ -24,3 +24,13 @@ export interface SellResourcesResponse {
 export interface SellResources {
   sellResources: (userId: number, qty: number) => void;
 }
+
+export const SET_USER_TAKEN = gql`
+  mutation SetUserTaken($userId: Int!) {
+    setUserTaken(userId: $userId)
+  }
+`;
+
+export interface SetUserTaken {
+  setUserTaken: (userId: number) => void;
+}
