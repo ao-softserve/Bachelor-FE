@@ -13,6 +13,9 @@ import { RootStore } from "../stores";
 import { spec } from "../simulationsData/producer/eduA-scenario";
 import { WorkstationControl } from "./WorkstationControl/WorkstationControl";
 import { ChooseUser } from "./ChooseUser/ChooseUser";
+import { ApolloProvider } from "@apollo/react-hooks";
+import { GraphQLClient } from "../apollo/apollo";
+import { ConnectionInfo } from "./ConnectionInfo/ConnectionInfo";
 
 const App: React.FC = observer(() => {
   const {
@@ -25,8 +28,15 @@ const App: React.FC = observer(() => {
     //eslint-disable-next-line
   }, [])
 
-  const content = simInitialized && !!common.userName && (
-    <div>
+
+  const client = () => {
+    if (common.port && common.ipAddress) {
+      return GraphQLClient(common.ipAddress, common.port);
+    }
+  };
+
+  const simulation = simInitialized && (
+    <>
       <Simulation>
         <Visualization />
         <div>
@@ -38,13 +48,22 @@ const App: React.FC = observer(() => {
         <IncomingResources />
         <ShipmentControl />
       </ProductExchange>
-    </div>
+    </>
+  );
+
+  const content = common.port && common.ipAddress && (
+    // @ts-ignore
+    <ApolloProvider client={client()}>
+      {!common.userName && <ChooseUser />}
+      {simulation}
+    </ApolloProvider>
   );
 
   return (
     <div className="App">
       <Header />
-      {!common.userName && <ChooseUser />}
+      {!common.port && !common.ipAddress && <ConnectionInfo />}
+
       {content}
     </div>
   );

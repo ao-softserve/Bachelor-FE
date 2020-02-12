@@ -46,4 +46,20 @@ export class CommonStore {
   public setControledBuffer = (buffer: number): void => {
     this.bufferControled = buffer;
   };
+
+  @observable
+  public ipAddress = "";
+
+  @action
+  public setIpAddress = (ip: string) => {
+    this.ipAddress = ip;
+  };
+
+  @observable
+  public port = "";
+
+  @action
+  public setPort = (port: string) => {
+    this.port = port;
+  };
 }
