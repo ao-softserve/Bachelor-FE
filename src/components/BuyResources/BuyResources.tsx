@@ -47,6 +47,7 @@ export const BuyResources: React.FC = observer(() => {
       type="number"
       placeholder="Resources To Buy"
       variant="outlined"
+      value={resToBuy}
       error={!canBuy}
       InputLabelProps={{
         shrink: true
@@ -57,15 +58,7 @@ export const BuyResources: React.FC = observer(() => {
 
   const buyButton = (
     <BRButtonWrapper>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleBuyButton}
-        disabled={
-          !canBuy
-          // !simRunning
-        }
-      >
+      <Button variant="contained" color="primary" onClick={handleBuyButton} disabled={!canBuy && !common.isSimRunning}>
         Order
       </Button>
     </BRButtonWrapper>

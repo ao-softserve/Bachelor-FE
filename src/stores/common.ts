@@ -5,7 +5,7 @@ export class CommonStore {
 
   constructor(rootStore: object) {
     this.rootStore = rootStore;
-    this.devMode = true;
+    this.devMode = false;
     if (this.devMode) {
       this.userName = "Producer 1";
       this.userId = 1;
@@ -71,4 +71,20 @@ export class CommonStore {
   };
 
   public devMode: boolean;
+
+  @observable
+  public roundStarted: boolean = false;
+
+  @action
+  public startRound = () => {
+    this.roundStarted = true;
+  };
+
+  @observable
+  public userReady: boolean = false;
+
+  @action
+  public setUserReady = () => {
+    this.userReady = true;
+  };
 }
