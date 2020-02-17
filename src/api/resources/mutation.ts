@@ -32,5 +32,15 @@ export const SET_USER_TAKEN = gql`
 `;
 
 export interface SetUserTaken {
-  setUserTaken: (userId: number) => void;
+  setUserTaken: (variables: any) => void;
+}
+
+export const SET_USER_READY = gql`
+  mutation SetUserReady($userId: Int!) {
+    setUserReady(userId: $userId)
+  }
+`;
+
+export interface SetUserReady {
+  setUserReady: (variables: any) => void;
 }

@@ -37,6 +37,7 @@ export const USERS_CHANGED_SUBSCRIPTION = gql`
       id
       name
       taken
+      ready
     }
   }
 `;

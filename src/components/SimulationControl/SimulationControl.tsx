@@ -8,9 +8,31 @@ import { SCWrapper, SCTitle } from "./SimulationControlStyles";
 import { StoreContext } from "../..";
 import { RootStore } from "../../stores";
 import { TransferFromBuff } from "../TransferFromBuff/TransferFromBuff";
+import { useMutation, useSubscription } from "@apollo/react-hooks";
+import { SET_USER_READY, SetUserReady } from "../../api/resources/mutation";
+import { WaitingDialog } from "../WaitingDialog/WaitingDialog";
+import { USERS_CHANGED_SUBSCRIPTION } from "../../api/resources/subscription";
 
 export const SimulationControl: React.FC = observer(() => {
   const { edua, common } = React.useContext<RootStore>(StoreContext);
+
+  const [setUserReady] = useMutation<SetUserReady>(SET_USER_READY);
+
+  const { data } = useSubscription(USERS_CHANGED_SUBSCRIPTION);
+
+  const subscripionUsers = data && data.usersChanged;
+
+  const areUsersReady = !!subscripionUsers && !subscripionUsers.filter((usr: any) => usr.ready === false).length;
+
+  const canStart = areUsersReady && common.userReady;
+
+  React.useEffect(() => {
+    if (canStart) {
+      common.setSimRunning();
+      edua.startTimer();
+    }
+    //eslint-disable-next-line
+  }, [canStart]);
 
   React.useEffect(() => {
     return () => {
@@ -20,8 +42,8 @@ export const SimulationControl: React.FC = observer(() => {
   }, []);
 
   const handleStartClick = () => {
-    common.setSimRunning();
-    edua.startTimer();
+    setUserReady({ variables: { userId: common.userId } });
+    common.setUserReady();
   };
 
   const title = (
@@ -46,6 +68,8 @@ export const SimulationControl: React.FC = observer(() => {
 
   const transferFromBuff = <TransferFromBuff />;
 
+  const waitingDialog = <WaitingDialog open={!areUsersReady && common.userReady} />;
+
   return (
     <SCWrapper>
       {title}
@@ -55,6 +79,7 @@ export const SimulationControl: React.FC = observer(() => {
       {rawProductsInfo}
       {readyProducts}
       {transferFromBuff}
+      {waitingDialog}
     </SCWrapper>
   );
 });
