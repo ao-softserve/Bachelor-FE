@@ -8,18 +8,9 @@ import { BRWrapper, BRButtonWrapper } from "./BuyResourcesStyles";
 import { observer } from "mobx-react";
 import { StoreContext } from "../..";
 import { RootStore } from "../../stores";
+import { ORDER_RES } from "../../api/resources/mutation";
 
 export const PRICE = 10;
-const ORDER_RES = gql`
-  mutation OrderResource($userId: Int!, $qty: Int!) {
-    orderResource(userId: $userId, qty: $qty) {
-      userId
-      toSell
-      toBuy
-      deliveryTime
-    }
-  }
-`;
 
 export const BuyResources: React.FC = observer(() => {
   const { common, edua } = React.useContext<RootStore>(StoreContext);

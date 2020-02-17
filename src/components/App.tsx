@@ -16,6 +16,7 @@ import { ChooseUser } from "./ChooseUser/ChooseUser";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { GraphQLClient } from "../apollo/apollo";
 import { ConnectionInfo } from "./ConnectionInfo/ConnectionInfo";
+import { SimulateFinalTaker } from "./SimulateFinalTaker/SimulateFinalTaker";
 
 const App: React.FC = observer(() => {
   const {
@@ -47,6 +48,7 @@ const App: React.FC = observer(() => {
       <ProductExchange>
         <IncomingResources />
         <ShipmentControl />
+        <SimulateFinalTaker />
       </ProductExchange>
     </>
   );

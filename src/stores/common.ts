@@ -1,4 +1,5 @@
 import { observable, action } from "mobx";
+import { User } from "../api/resources/query";
 
 export class CommonStore {
   private rootStore: object;
@@ -86,5 +87,13 @@ export class CommonStore {
   @action
   public setUserReady = () => {
     this.userReady = true;
+  };
+
+  @observable
+  public allUsersReady: boolean = false;
+
+  @action
+  public setAllUsersReady = () => {
+    this.allUsersReady = true;
   };
 }

@@ -44,3 +44,14 @@ export const SET_USER_READY = gql`
 export interface SetUserReady {
   setUserReady: (variables: any) => void;
 }
+
+export const ORDER_RES = gql`
+  mutation OrderResource($userId: Int!, $qty: Int!) {
+    orderResource(userId: $userId, qty: $qty) {
+      userId
+      toSell
+      toBuy
+      deliveryTime
+    }
+  }
+`;
