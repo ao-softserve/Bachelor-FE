@@ -30,6 +30,7 @@ export const SimulationControl: React.FC = observer(() => {
     if (canStart) {
       common.setSimRunning();
       edua.startTimer();
+      common.setAllUsersReady();
     }
     //eslint-disable-next-line
   }, [canStart]);

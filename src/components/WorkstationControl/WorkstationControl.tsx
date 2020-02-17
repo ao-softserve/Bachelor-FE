@@ -59,7 +59,7 @@ export const WorkstationControl: React.FC = observer(() => {
         </>
       ) : (
           <>
-            <StartOperation />
+            <StartOperation products={rawProducts} wstStatus={workstationStatus} />
             <TransferProducts />
           </>
         )}

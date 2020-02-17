@@ -49,7 +49,7 @@ export const TransferFromBuff: React.FC = observer(() => {
   const handleDestChange = (dest: string) => {
     setDestBuffId(getBuffByName(dest)!.id);
   };
-  console.log(edua.simInfo);
+
   const handleTransfer = () => {
     setTransferValue(0);
     edua.transfer(getConnectionId(destBuffId), transferValue, productsInBuff[0].product_id);
